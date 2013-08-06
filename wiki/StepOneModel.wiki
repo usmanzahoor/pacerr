@@ -1,0 +1,37 @@
+#summary Step 2. Technical step one. Get your model ready
+#labels Model,Phase-Design,Featured
+
+==Model==
+
+Alright, so now you have everything ready. Time to start deciding on how your rover will look like. Look at the model I have uploaded to 'downloads' to get an idea of what it might look like. 
+
+Your robot can look however you want, just make sure there is enough room for everything. 
+
+So how would you start modeling? We'll I used this software:
+Open: http://usa.autodesk.com/autodesk-inventor/
+Go to: Trial version or buy the full version
+
+IF you are a student, then:
+Open: http://students.autodesk.com/?nd=download_center
+Scroll to: Autodesk Inventor Professional
+And follow: 'Download' instructions
+
+You do not have to necessarily use this expensive, software, I am sure you would do just as well with something like Google Sketchup Basic. But make sure that if you are going to use a waterjet or similar machine, you use proper drafting software. 
+
+As a matter of fact, if you are just going to be building the chassis yourself, you could even get away with simply sketching the design. 
+
+But with the designing software, you can make sure everything fits and you have enough room.
+
+Here are the models for my final rover design (note: version 2 was the version built):
+
+http://grabcad.com/library/pacerr-robot-v2
+http://grabcad.com/library/pacerr-rover-v1
+
+As you seen, my models are pretty complicated and detailed. You just have to make sure you have some sort of design laid out for the body of your robot.
+
+Some things to keep in mind are:
+
+- The robot must have room for the arduino, a breadboard (if necessary), and extra sensors that you wish to add.
+- The robot must be made of a good material (I used aluminum but you could use anything like plastic, other good metal or even wood)
+
+These are just some guidelines and when you have finished making you physical robot, head on to the next tutorial for the next step.    

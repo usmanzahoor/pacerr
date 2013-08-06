@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RoverCommand</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="app_screen">RoverCommand</string>
+    <string name="app_about">RoverCommandAbout</string>
+    <string name="about">Made by Usman Zahoor. </string>
+    <string name="app_config">Configuration</string>
+
+</resources>

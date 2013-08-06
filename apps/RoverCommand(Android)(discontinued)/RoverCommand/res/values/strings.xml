@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RoverCommand</string>
+    <string name="hello_world">ENEXRover v1 Command app</string>
+    <string name="menu_settings">Settings</string>
+    <color name="Background">#000000</color>
+
+</resources>

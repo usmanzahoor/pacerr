@@ -1,0 +1,35 @@
+#summary Done!Final notes and info for hook up.
+#labels Phase-Support
+
+I hope you enjoyed and learned lots from the wiki pages.
+
+Hopefully now you understand the code that makes the robot do what it does. 
+
+Feel free to change the code to your liking and use it but make sure you follow the license terms.
+
+If you have any questions about the code, feel free to email me at:
+_*uzahoor10@gmail.com*_
+
+I will post pictures of my own robot. All the code I used is available (for the arduino as well as the android and blackberry apps).
+
+I will also post pictures of the hook-up so you get a good idea of how to set the robot up. 
+
+You will find this hook-up diagram in the downloads tab.
+
+==Hook-up==
+
+For the hook-up, the IC (chip connected to the motor pins), is what controls the motors.
+
+As I mentioned before, *DO NOT* simple attach the motors to the arduino you *MUST* use an h-bridge:
+
+http://fritzing.org/media/fritzing-repo/projects/a/arduino-l293d/images/l293d_pl.jpg
+
+http://3.bp.blogspot.com/-ou_idTKaKFU/UQkOzgdzbnI/AAAAAAAAArM/_jYpJ7KwSfQ/s1600/WORKING.jpg
+
+==L293D==
+
+Follow the above diagram *BUT* for pins 1 & 9 attach them to the arduino pins 9 & 10.
+
+This is so you can control the motor speeds if you want later on.
+
+Thanks for reading! :D

@@ -1,0 +1,33 @@
+#summary Intro to project. MUST READ!
+#labels Featured,Phase-Requirements
+
+= Introduction =
+
+Hello,
+Welcome to PACERR! As mentioned before, this project is a part of a school project called ENEX. 
+
+To learn a bit about the project, look at the project homepage: http://code.google.com/p/pacerr. 
+
+So first of all, let me tell you that this ‘robot’ will work with two motors or four motors. With four motors, you would just run the command pins at the same place as the other motor on the adjacent side.
+
+O,,1,,    O,,2,,
+
+
+O,,1,,   O,,2,,
+
+As you can see above, the command pins for both O1 motors will be the same or on a breadboard on the same pin side and the ones for O2 will be the same.
+
+For this project, I will only be providing code assuming that you are only using two motors or the situation mentioned above. 
+
+Also, the specific Android app will also need to be tweaked for your custom needs. For example, you will need to use the code for the .apk and modify the MAC address lines in the ‘src/com/example/rovercommand/mainactivity’ and add the MAC address of your OWN Bluetooth module. 
+
+I have also made a blackberry 10 app: http://appworld.blackberry.com/webstore/content/26018872/?countrycode=CA
+
+As you can tell the android app code compliments the arduino code. For example, in the arduino code, I have defined the command for ‘forwards’ as simple ‘F’. This means that only the Bluetooth command ‘F’ will make the motors turn in a forward direction. Now in the app’s java file (mentioned above), you will see that the button ‘Forwards’ sends the command ‘F’ which results in a forward motion. If you want to change the arduino code, you will have to also modify the app. For my final presentation, I will greatly modify the GUI of the app and also add a text reader so the user can modify the MAC address without having to recompile the app.
+
+For the blackberry app, you have the option to search for the bluetooth device and the deploy commands via terminal (SPP).
+
+You can use a simple Bluetooth terminal and send the commands: F, B, S, L, or R and the motors should respond. But you will need to connect the Bluetooth module to the specific Bluetooth terminal you will be using. 
+
+
+So, let's get started. Check out the next wiki page!

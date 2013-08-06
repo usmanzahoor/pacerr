@@ -1,0 +1,123 @@
+#summary Step 3. Now on to the programming.
+#labels Featured,Phase-Implementation
+
+=Programming with the simple code=
+
+Alright, so now you have your model or sketch ready. Now what?
+
+Well, let's get on to the programming aspect. I have provided, in the downloads and source tabs, different ways to program arduino.
+
+The ENEXRoverX.ino sketches (btw arduino code files are called sketches) are just simple ways to control the robot with serial (or bluetooth).
+
+First, let me explain how everything works.
+
+===ENEXRoverX.ino code files and how they work + Arduino functionality===
+
+The first lines of code above the void loop () function are to let arduino know which pins do what. 
+
+{{{
+char incomingByte;
+int leftDrivePin = 6;      // left motor
+int rightDrivePin = 5;      // right motor
+int leftDirectionPin = 7;   // direction - left motor
+int rightDirectionPin = 4;  // direction - right motor
+}}}
+
+The 'char incomingByte line is declaring the fact that in the loop function where we look for the serial commands, the commands (ie "F" or "B") will be stored in a variable called "incomingByte".
+
+(the "//" lines are just comments )
+
+Now we come to the "int"s. As you can see, there are two variables for each motor; DrivePin and DirectionPin. These can be called whatever you want. What they do is assign the two pins of the motor. 
+
+For example, if you were to put the motor directly into Arduino (this is just for explaining *DO NOT* actually do this as it can damage your arduino) one of the wires would go into one of the pins and the other into the other pin.
+
+Here we have leftDrivePin set to 6 and leftDirectionPin set to 7. This means that for the left motor, you would put one of the wires, either negative (black usually) or positive into either pin. Same goes for the other motor. 
+
+{{{
+void setup() 
+{
+  Serial.begin(9600);
+  pinMode(leftDrivePin, OUTPUT);
+  pinMode(rightDrivePin, OUTPUT);
+  pinMode(leftDirectionPin, OUTPUT);
+  pinMode(rightDirectionPin, OUTPUT);
+  Serial.println("connection successful. enter command, R, B, S, L, or F");
+}
+}}}
+
+This is the set-up function and it tells arduino if to read signals from a specific pin or send signals or power out. 
+
+The first line `Serial.begin(9600);` is to tell arduino that we will be working with the serial monitor and sending it signals from there. 
+
+The lines after that tell the arduino that the pins we declared above (the motor pins) will be used as outputs (we will be _sending_ power or signals to them not _receiving_).
+
+The last line `Serial.println("connection ... F");` is telling the arduino to print the message in the quotes to the serial monitor we started above using `Serial.begin(9600);`.
+
+  ====How serial works and how Bluetooth is used====
+
+  The serial monitor is located in the top right corner of the arduino   ide. It looks like a magnifying glass and if you hover over it, you will see that is says serial monitor. 
+
+  When you use the command `Serial.printIn(" ")` the arduino prints the message in the quotes into the monitor when you declare it to be printed. 
+
+  You will see exactly what I mean later on in this wiki. 
+
+  The serial can be replaced with anything that is attached to the TX and RX pins on the arduino. (located in the same row as the digital pins) This stands for receive and transmit respectively. 
+
+  Now if you want to view the messages or send signals, you must connect these pins to some sort of capable input (ie bluetooth module). 
+
+  The pins on the Bluetooth module labeled RX and TX attach here. 
+
+  =====The RX pin goes with the TX pin and the TX pins goes with the RX pin!=====
+
+  Once you have the power pin and ground pins connected, you can connect the Bluetooth module to a terminal and view commands sent and send your own commands. 
+
+{{{
+void loop() 
+{
+  if (Serial.available() > 0) {
+    incomingByte = Serial.read();
+    if (incomingByte == 'F') {
+        digitalWrite(leftDirectionPin,HIGH);
+        digitalWrite(leftDrivePin, LOW);
+        digitalWrite(rightDirectionPin,HIGH);
+        digitalWrite(rightDrivePin, LOW);
+        Serial.println("Forwards");
+    }
+  ...
+   }
+}
+}}}
+
+This is the loop function. This means that the processes in here will continue until power is removed from the arduino.
+
+The line `if (Serial.available() > 0) {` ells the arduino to look for serial commands and if the commands are available (or greater than 0) the do the following. 
+
+Then the arduino is told `incomingByte = Serial.read();`. This tells it that the commands given to the arduino will be stored in the variable called incomingByte. `Serial.read();` is what reads the commands. 
+
+After this, comes `if (incomingByte == 'F') {`; this is saying that if the "incomingByte" or the command is 'F' do the following:
+
+{{{
+        digitalWrite(leftDirectionPin,HIGH);
+        digitalWrite(leftDrivePin, LOW);
+        digitalWrite(rightDirectionPin,HIGH);
+        digitalWrite(rightDrivePin, LOW);
+        Serial.println("Forwards");
+}}}
+
+`digitalWrite(leftDirectionPin, HIGH);` :
+
+Make the leftDirPin HIGH, or supply it with power. And make the other pins HIGH or LOW respectively. 
+
+`Serial.println("Forwards");` :
+
+This tells the arduino that when the robot starts to move forward, display the message "Forwards".
+
+If you look at the other commands, you will be able to depict what they mean by looking at this problem. 
+
+  In Final.ino you will see two new commands initiated by "U" and "T". These are used for the ultrasonic sensor and the lm35 temperature. 
+  I will not heavily explain these as tutorials for them are easy to find online. However, I will tell you how to implement them into the code.
+  First you must find working code for these sensors and then you literally merge the variables and setups. 
+  
+  For example, take the code above the void setup () functions and add it to the code with the commands do the same with the setup () lines and the loop you will add to `if (incomingByte == 'F') { _loop here_ }`.
+
+Now look at the next tutorial titled: Advanced Program for the 'Final2' program for the advanced code with servos and us sensor robot. 

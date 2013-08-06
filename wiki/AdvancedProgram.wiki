@@ -1,0 +1,434 @@
+#summary Step 4.Advanced PACERR program with servo, ultrasonic sensor, photocells and different mode incorporation.
+#labels Featured,Phase-Implementation,Phase-Deploy
+
+= Intro =
+
+So now that you've read up on the basic program for the robot (if you haven't make sure you read that before this), you'll be wanting to improve the performance of the robot. 
+
+Because the code is long and complicated, I'll divide it up into various sections for the various parts of the code. 
+
+_Note in Final2.ino, there are some lines of code with `//` in front of them. Theses are currently *NOT* active in the code and you might want to activate them by removing the two slashes. Don't worry if you don't understand what this means yet. After going through these wikis you should have a better idea.
+
+==Review==
+
+This stuff is basically just a review of the basic program. 
+So we know that at the top, there are the variable declarations for arduino to know what stands for what and where to store data.
+
+{{{
+char incomingByte;
+int leftDrivePin = 6;      // left motor
+int rightDrivePin = 5;      // right motor
+int leftDirectionPin = 7;   // direction - left motor
+int rightDirectionPin = 4;  // direction - right motor
+}}}
+
+We've already discussed what these lines do in the last page.
+
+{{{
+void setup() 
+{
+  Serial.begin(9600);
+  pinMode(leftDrivePin, OUTPUT);
+  pinMode(rightDrivePin, OUTPUT);
+  pinMode(leftDirectionPin, OUTPUT);
+  pinMode(rightDirectionPin, OUTPUT);
+  Serial.println("connection successful. enter command, R, B, S, L, or F");
+}
+}}}
+
+This is the set-up function and it tells arduino if to read signals from a specific pin or send signals or power out. 
+
+{{{
+void loop() 
+{
+  if (Serial.available() > 0) {
+    incomingByte = Serial.read();
+    if (incomingByte == 'F') {
+        digitalWrite(leftDirectionPin,HIGH);
+        digitalWrite(leftDrivePin, LOW);
+        digitalWrite(rightDirectionPin,HIGH);
+        digitalWrite(rightDrivePin, LOW);
+        Serial.println("Forwards");
+    }
+  ...
+   }
+}
+}}}
+
+This is the loop function. This means that the processes in here will continue until power is removed from the arduino.
+
+If you don't understand these parts, you should probably look at the tutorial titled: StepTwoProgramming
+
+==Final2==
+===Declarations===
+
+Alright, so now have a look at the sketch Final2.ino. 
+
+There are new lines at the top declaring more things. 
+
+{{{
+#include <Servo.h>
+}}}
+
+We will be using the servo library that comes with arduino. This line just lets the ide know we will be doing that so we can manipulate the servo easier.
+
+{{{
+const int trigPin = 2; // trigPin 
+const int echoPin = 3; // echoPin 
+}}}
+
+These lines are dependent on the type of ultrasonic sensor you use. I am using the HC-SR04 and on it there are four pins. Vcc (power), Trig, Echo and Gnd.
+
+The trig and echo pins do most of the work. The are connected mainly to the two drums. One of them sends sound signals and the other ones receives (trig and echo). 
+
+Here you declare that the digital pin 2 on the arduino will be connected to the trig pin on the ultrasonic sensor and the same for the echo pin.
+
+{{{
+const int lsPin = A1;
+const int ambient = 500;    //natural
+const int threshold = 600;  //steering 
+int lightLeft = 0;
+int lightRight = 0; 
+}}}
+
+The line `const int lsPin = A1;` is letting the arduino know that Analog pin labeled A! will be used to check if the photocells are active to switch to steering with a flash light mode. 
+
+The lines `const int ambient = 500;` and `const int threshold = 600;` are letting the arduino know that the ambient level of light for the photo cells is 500 and the threshold or the least amount of light needed to steer in 600.
+
+The two `int` statements are just to store the amount of light going to the left and right photocells.
+
+{{{
+char incomingByte;          // steering mode commands
+const int btPin = A0;
+int leftDrivePin = 4;       // left motor
+int rightDrivePin = 6;      // right motor
+int leftDirectionPin = 5;   // direction - left motor
+int rightDirectionPin = 7;  // direction - right motor
+int enable1 = 9;            // left motor
+int enable2 = 10;           // right motor
+}}}
+
+These lines have been discussed in the previous wiki page.
+
+{{{
+const int minSafeDist = 35; 
+int centerDist, leftDist, rightDist, backDist; // Define variables center, left, right and back distance
+
+
+Servo myservo; //declare servo
+}}}
+
+The `const int minSafeDist = 35;` declares that if there is something 35 cm in front of our robot it should do what we tell it to do (in our case preform a scan for available routes).
+
+The ints are again just ways to store data and the `Servo myservo;` is letting the ide know that from now on we will call our servo `myservo`.
+
+===void setup ()===
+
+{{{
+void setup() 
+{
+  Serial.begin(9600);
+  // Set all the pins and the servo
+  pinMode(btPin, INPUT);
+  pinMode(leftDrivePin, OUTPUT);
+  pinMode(rightDrivePin, OUTPUT);
+  pinMode(leftDirectionPin, OUTPUT);
+  pinMode(rightDirectionPin, OUTPUT);
+  //pinMode(lights, OUTPUT);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  digitalWrite(enable1, HIGH);
+  digitalWrite(enable2, HIGH);
+  myservo.attach(11);
+  myservo.write(95);
+  // Initial message
+  Serial.println("connection successful. enter '?' for list of commands.");
+}
+}}}
+
+This is pretty self explanatory but if you do not understand it have a look at the previous wiki page (the one you should have already read before this one).
+
+The new lines however I will go over.
+
+{{{
+  myservo.attach(11);
+  myservo.write(90);
+}}}
+
+These lines refer back to our servo called `myservo`. So the .attach command is telling the arduino that we will attach out servo's inout pin to the arduino digital pin 11.
+
+The .write line is telling which angle to set the servo up to start. In this case at 90 degrees so it is looking forwards. And then it can turn 0 degrees to look right and 180 degrees to look left.
+
+===void loop () and the autonomous function===
+
+This is what does the magic for us. 
+
+First, the arduino checks if either the buletooth pin or the photo cells are powered on. If they are, it either goes into manual mode (bluetooth) or lightsteer mode (photocells)/
+
+{{{
+//check if we are using the bluetooth module, if so listen for commands only
+  if( digitalRead(btPin) == HIGH ) { 
+    manual();
+    return;
+  }
+  //check if the photosensors are on, if so follow light only
+  if( digitalRead(lsPin) == HIGH && digitalRead(btPin) == LOW ) { 
+    lightsteer();
+    return;
+  }
+}}}
+
+That is why above, we connected the bluetooth module to the A0 pin and the photocells to the A1 pin. 
+
+The arduino checks if either of these things is receiving power.
+If the bluetooth module is receiving power `if( digitalRead(btPin) == HIGH ) {` and if it is then
+ 
+{{{
+    manual();
+    return;
+}}} 
+
+perform the manual function. Which is basically the void loop of the basic code. 
+
+If the photocells get power AND the bluetooth doesn't get power 'if( digitalRead(lsPin) == HIGH && digitalRead(btPin) == LOW ) {` then:
+
+{{{
+    lightsteer();
+    return;
+}}}
+
+preform the lightsteer function (I'll describe it below).
+
+If none of these things happens, then preform the autonomous functions:
+
+{{{
+centerDist = getDistance();  
+    
+  if(centerDist >= minSafeDist) /* If the inches in front of an object is greater than or equal to the minimum safe distance react*/
+  {
+    forward(); // All wheels forward for seconds
+  }
+  else // If not:
+  {
+    brake(); // Stop all motors
+    backward();
+    delay(600);
+    lookAround(); // Check your surroundings for best route
+    if(rightDist > leftDist) // If the right distance is greater than the left distance , turn right
+    {
+      right();
+    }
+    else if (leftDist > rightDist) // If the left distance is greater than the right distance , turn left
+    {
+      left();
+    }
+    else if ( leftDist&&rightDist < minSafeDist ) // If the left and right distances are smaller than the min safe distance go back
+    {
+      backward();
+      delay(1000);
+    }  
+  }
+}}}
+
+So what's going on here? Well, first of all `centerDist = getDistance();` is saying that to find the distance in front of the robot, you must preform the function called 'getDistance'.
+
+Then, if the center distance is greater than the minimum safe distance, go forward until something comes in front of the robot. 
+
+If there is something in front, then stop (`brake();`) go back a bit (`backward(); delay(600);`) then `lookAround();` for safe distances. 
+
+Once the robot has looked around, this is what happens:
+
+  If the right distance is greater than the left, then turn right for one second and continue forward.
+
+  If the left distance is greater than the right, then turn left for one second and continue forward.  
+
+  If the left and right distances are smaller than the min safe distance go back.
+
+This pretty much covers the 'autonomous' function and how the robot moves around unassisted. Later on, you might want to add a temp and humidity sensor or other data collection sensors and as the robot is moving around, it could send the data back over to serial.
+
+What you'll have to do then, is tell the robot, that when bluetooth is on, still preform auto mode and send serial outs and add a button maybe to switch modes. But right now, you don't have to worry about that.
+
+===Manual method and functions===
+
+The manual methods of this robot are really just the same as the basic program. Have a look and you'll see that the only difference is that there is the line:
+
+{{{
+void manual()
+{
+...
+}
+}}}
+
+above the code. This is letting the ide (btw, ide stands for integrated development environment, so the program you are using on your computer) know that the lines curly braces are not `void loop ()` like in the basic code but are `void manual ()` and we can call them when ever (well almost when ever) by using `manual();`
+
+An example of this mentioned earlier is in lines 57-60:
+
+{{{
+if( digitalRead(btPin) == HIGH ) {
+manual();
+return;
+}
+}}}
+
+You'll recognize these from above. So basically what is happening is that we tell the arduino that if btPin, or pin A0, is NOT detecting power, then go ahead and preform the `manual();` function. 
+
+And then we go ahead and let it know what the `manual();` function is exactly by creating a 
+
+{{{
+void manual()
+{
+...
+}
+}}}
+
+===The light steering function===
+
+{{{
+void lightsteer()
+{
+  // Read light sensors connected to
+  // analog pins A2 and A3
+    lightLeft = analogRead(A2);
+    lightRight = analogRead(A3);
+     // Stop robot if below ambient
+     if (lightRight < ambient || lightLeft < ambient) {
+     brake();
+     } else {
+     forward();
+      // Steer to right if right CdS below threshold
+      if (lightRight < threshold) {
+      left();
+  delay (250);
+}
+      // Steer to left if left CdS below threshold
+      forward();
+      if (lightLeft < threshold) {
+      right();
+  delay (250);
+  }
+ }
+}
+}}}
+
+So this function is obviously called by `lightsteer();` (in lines 62 - 65).
+
+Here is what happens: 
+
+The two sensors that we declared near the top of the sketch `lightLeft` and `lightRight` are assigned analog pins `A2` and `A3`.
+
+Now:
+
+  {{{
+    if (lightRight < ambient || lightLeft < ambient) {
+       brake();
+  }}}
+
+  if there is less light than the amount we declared near the top facing both of the photocells, then perform the `brake();` function. or if there is light shining on both both the cells, then perform `forward():`
+
+  and
+
+  {{{
+    if (lightRight < threshold) {
+        left();
+    delay (250);
+  }
+  }}}
+
+  if there is more light on the right cell, turn left and the opposite for the other cell.
+
+Pretty easy and simple.
+
+===Motor methods===
+
+These functions just are the movement functions, like brake = all motors off and forward = all motors on and left = right motor forward and left motor either off or `LOW`, backwards).
+
+Again, by now you should be able to decipher these as well pretty easily.
+
+===Servo methods===
+
+Something new, yay! But unfortunately (or maybe not for you) pretty easy to understand).
+
+{{{
+/* Servo methods */
+void lookRight()
+{
+myservo.write(180);
+delay(320);
+}
+
+void lookLeft()
+{
+myservo.write(0);
+delay(320);
+}
+
+void lookAhead()
+{
+myservo.write(95);
+delay(320);
+}
+
+void lookAround()
+{
+lookRight();
+rightDist = getDistance();
+
+lookLeft();
+leftDist = getDistance();
+
+lookAhead();
+centerDist = getDistance();
+}
+/* End of servo methods */
+}}}
+
+Here we manipulate the `myservo.write( -angle- );` command from the library. So if you look at your servo, 90 degrees is looking forwards and so 180 is looking to the left and 0 is looking to the right.
+
+http://www.seattlerobotics.org/guide/images/pulse_code.jpg
+
+In every function, we use the .write command to move the servo at a specific angle then in the `void lookAround()` we store the measurement data.
+
+So in `void lookAround()` we `lookRight();` then we `getDistance();` and then we store it in the variable we declared at the top of the code as `rightDist` and so on for the other angles.
+
+===The ultrasonic sensor explained===
+
+{{{
+int getDistance()
+{
+long duration;
+digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+duration = pulseIn(echoPin, HIGH);
+return duration / 2 / (29+(1/10));
+}
+}}}
+
+The ultrasonic sensor, in most cases has two 'drums' and sometimes even just one that does both jobs. I'll explain the HC-SR04.
+
+On the U' sensor, one 'drum' is trig and the other is 'echo'. Look at the following diagram:
+
+http://www.robotc.net/w/images/thumb/c/c8/Ultrasonic_Sensor_Concept_Diagram.png/400px-Ultrasonic_Sensor_Concept_Diagram.png
+
+In the code block, we first do `long duration;` this is just saying we are making a new variable called 'duration' to store data.
+
+What we do in the next few lines is make trigPin send out ultrasonic waves and as the bounce back, make the pulse pin determine how long it took in ms.
+
+Then we say ok, the 'duration' is the time it took. 
+
+Now comes the bit that turns the duration into the distance.
+
+{{{
+return duration / 2 / (29+(1/10));
+}}}
+
+What we do is take the 'duration' and divide it by 2 then by 29.1 and this gives us the distance to the object which the u' sensor is facing. 
+
+==Final notes==
+
+So hopefully now you understand the code that makes the robot do what it does. Feel free to change the code to your liking and use it but make sure you follow the license terms.
+
+If you have any questions about the code, feel free to email me at:
+_*uzahoor10@gmail.com*_

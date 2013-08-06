@@ -1,0 +1,40 @@
+#summary Step 1. Required things for the project.
+#labels Requirements,Phase-Requirements
+
+== What do I need? ==
+
+Alright, so let's get started!
+
+What will you need and need to do before the project? Well here is what I did and recommend. 
+
+===Model===
+First, you should make some sort of model for your rover. It can be any thing you like and look however you want. I used Autodesk Inventor for my modeling. (If you are a student, get the software for FREE!)  Check out the rendered model I have made. (I will possibly upload my models to GrabCAD, so check that out too)
+
+The only thing to remember when making your models, is to make sure everything goes together nicely and you have plenty of room for the hardware you will need and want to use. 
+
+I will be cutting out my model from aluminum using a waterjet, so when you are making your model, make sure you have someway of cutting it out/ making it. 
+
+
+===Physical Requirements===
+By 'Physical' I mean actual stuff you'll need. 
+
+Here is a basic list:
+
+-An Arduino (I'm using Uno)+ the required software: http://www.arduino.cc/ 
+
+-Fitzrig software for schematics and ordering/making a PCB: http://fritzing.org/
+
+-A Breadboard for prototyping 
+
+-Cables, wires, wire strippers, jumper cables ... 
+
+-Motors (at least 2) (I'm using these ones: http://www.vexrobotics.com/276-2181.html)
+
+-A Bluetooth dongle for arduino 
+
+http://thumbs3.ebaystatic.com/m/mDeCohFDeVs02PIr9CCkcQw/96.jpg
+
+-An Android device or any other with Bluetooth and Bluetooth Terminal capabilities
+
+
+That's about it for now. And also of course a computer.
