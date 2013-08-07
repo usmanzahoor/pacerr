@@ -1,5 +1,5 @@
-pacerr
-======
+#pacerr
+
 
 *PACERR is an arduino based robot that takes commands from a Bluetooth source and translates them into other messages (motor movements).*
 
@@ -15,7 +15,7 @@ As well as reading the wiki pages. Make sure you also do some other reading on A
 
 If you have any questions, don't hesitate to email the owner of the project.
 
-==Note:==
+##Note:
 
 The BlackBerry app can be found here: http://appworld.blackberry.com/webstore/content/26018872/
 
@@ -28,5 +28,4 @@ R - Right
 S - Stop
 H - Horn 
 
-http://pacerr.googlecode.com/files/Pacerr1.jpg
-http://pacerr.googlecode.com/files/Pacerr2.jpg
+
