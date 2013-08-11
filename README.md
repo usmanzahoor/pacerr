@@ -1,4 +1,6 @@
-#pacerr - Partially Arduino Controled Rover Robot
+#pacerr 
+
+Partially Arduino Controled Rover Robot
 
 http://uzahoor10.github.io/pacerr/
 
@@ -10,9 +12,9 @@ Pacerr can take commands from any Bluetooth terminal as well as the Blackberry 1
 
 I have included the necessary bare basic code for the rover. I will also include several different codes you can apply. You can, by all means, use the codes and build upon them or just use them as is to make your own Pacerr. I will also include files such as .pcb and other schematic for the project as I want to make it as easy as possible to have fun with arduino and BT without going through many hassles. All I ask for is a bit of credit :)
 
-##Some things to consider
+##Note
 
-Note: All code is MOSTLY my own the very basic code will most likely be found floating around in other places simply because it is super basic. Some of the code has been created by looking around at different examples and building upon them (as I hope you will do). Nonetheless, the original owner of these specific pieces of code is me.
+All code is MOSTLY my own the very basic code will most likely be found floating around in other places simply because it is super basic. Some of the code has been created by looking around at different examples and building upon them (as I hope you will do). Nonetheless, the original owner of these specific pieces of code is me.
 
 ##Wiki Pages
 Make sure you read the wiki pages for information on the project.
