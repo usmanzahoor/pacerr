@@ -4,7 +4,7 @@
 
 http://uzahoor10.github.io/pacerr/
 
-*PACERR is an arduino based robot that takes commands from a Bluetooth source and translates them into other messages (motor movements).*
+***PACERR is an arduino based robot that takes commands from a Bluetooth source and translates them into other messages (motor movements).***
 
 ####Short Description
 
@@ -42,3 +42,7 @@ S - Stop
 H - Horn 
 
 The android app has not been released to the market but the code can be found in the 'Android' folder
+
+####Pictures
+![PACERR final](https://github.com/uzahoor10/pacerr/blob/master/Pacerr1.jpg)
+![PACERR Final Picture 2](https://github.com/uzahoor10/pacerr/blob/master/Pacerr2.jpg)
