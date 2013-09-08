@@ -44,5 +44,4 @@ H - Horn
 The android app has not been released to the market but the code can be found in the 'Android' folder
 
 ####Pictures
-![PACERR final](uzahoor10.github.com/pacerr/master/Pacerr1.jpg)
-![PACERR Final Picture 2](uzahoor10.github.com/pacerr/master/Pacerr2.jpg)
+![PACERR Final Picture 2](https://github.com/uzahoor10/pacerr/blob/master/Pacerr2.jpg?raw=true)
