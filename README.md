@@ -24,4 +24,4 @@ http://uzahoor10.github.io/pacerr/
 
 
 ####Pictures
-![PACERR Final Picture 2](https://github.com/uzahoor10/pacerr/blob/master/ProjectPage/Pacerr1.jpg?raw=true)
+![PACERR Final Picture 2|alt=PACERR being built](https://github.com/uzahoor10/pacerr/blob/master/ProjectPage/Pacerr1.jpg?raw=true)
