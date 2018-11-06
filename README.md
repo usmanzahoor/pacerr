@@ -2,7 +2,6 @@
 
 #####Partially Arduino Controled Rover Robot
 
-http://uzahoor10.github.io/pacerr/
 
 ***PACERR is an arduino based robot that takes commands from a Bluetooth source and translates them into other messages (motor movements).***
 
@@ -19,8 +18,6 @@ Make **SURE** to read the wiki pages. (Left menu)
 #### Site
 
 Checkout the website for some more useful info! 
-
-http://uzahoor10.github.io/pacerr/
 
 
 ####Pictures
